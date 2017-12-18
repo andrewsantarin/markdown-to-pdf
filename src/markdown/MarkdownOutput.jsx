@@ -11,7 +11,7 @@ export function MarkdownOutput(props) {
 
   return (
     <div>
-      <Form>
+      <Form as="div">
         <Form.Field
           label="Result"
         />

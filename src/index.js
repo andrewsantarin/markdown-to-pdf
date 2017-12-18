@@ -1,8 +1,32 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import { render } from 'react-dom';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import configureStore from './configure-store';
+import { INITIAL_STATE } from './initial-state';
+import Root from './Root';
+import registerServiceWorker from './register-service-worker';
+
+import './index.css';
+
+// Create the store.
+const store = configureStore(INITIAL_STATE);
+
+function renderApp(RootComponent) {
+  render(
+    <RootComponent {...{store}} />,
+    document.getElementById('root')
+  );
+}
+
+renderApp(Root);
+
+// Hot Module Replacement API
+if (module.hot) {
+  module.hot.accept('./Root', () => {
+    const NextApp = require('./Root').default;
+
+    renderApp(NextApp);
+  });
+}
+
 registerServiceWorker();
